@@ -1,50 +1,46 @@
+import { useRef, useState } from 'react';
+import { Button, CardDeck, Container } from 'react-bootstrap';
+
+import data from '../models/foods';
 import Food from './Food';
 
-function App(){
-    const foods =[
-    {   id:1,
-        name: 'Hambúrguer',
-        image: 'imgs/hamburguer.jpg'
-    },
+import 'bootstrap/dist/css/bootstrap.css';
 
-    {   id:2,
-        name: 'Suco',
-        image: 'imgs/suco.jpg'
-    },
-    
-    
-];
+function App() {
+  const [foods, setFoods] = useState(data);
+  const buttonAdd = useRef(null);
 
-    
-   return(
-    <div class="container">
-    <h1 class="mt-5 text-center">Menu</h1>
+  const handleClick = () => {
+    const food = {
+      id: 3,
+      name: "Batata",
+      image: "imgs/batatafrita.jpg",
 
-    <div class="text-right">
-            
-        <button 
-            type="button" class="btn btn-secondary rounded-circle mr4- font-weight-bold" 
-            //id="newBtnFood"
-            data-toggle="modal"
-            data-target="formFoofModal"
-            //oniclick="loadFormCreateFood()"
+    } 
+    setFoods([...foods, food]);
+
+    buttonAdd.current.disabled = true;
+  };
+  return (
+    <Container>
+      <h1 className="mt-5 text-center">Menu</h1>
+      <div className="text-right">
+        <Button
+          variant="secondary"
+          className="rounded-circle mr-4 font-weight-bold"
+          onClick={handleClick}
+          ref={buttonAdd}
         >
-            +
-            </button>
-           </div>
-           <section className="card-deck my-3">
-            {foods.map((food) =>{
-                return <Food food={food} key={food.id} />;
-            })}
-
-
-            </section>
-            </div>
-   );
+          +
+        </Button>
+      </div>
+      <CardDeck className="my-3">
+        {foods.map((food) => (
+          <Food food={food} key={food.id} />
+        ))}
+      </CardDeck>
+    </Container>
+  );
 }
 
- export default App;
-
-    
-
-
+export default App;
